@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+source $(dirname $(dirname $0))/lib/utils.sh
+
+run_python() {
+    plugin_name="python"
+
+    full_version=$(get_preset_version_for $plugin_name)
+
+    if [ "$full_version" == "" ]; then
+        echo "No version set for ${plugin_name}"
+        exit -1
+    fi
+
+    IFS='.' read -r -a splitted_version <<< "$full_version"
+
+    local short_python_version="${splitted_version[0]}.${splitted_version[1]}"
+
+    exec /home/daniel/.asdf/bin/private/asdf-exec python bin/python${short_python_version}
+}
+
+run_python
