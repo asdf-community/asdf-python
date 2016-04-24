@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+list_all() {
+    local http_endpoint="https://www.python.org/ftp/python/"
+    local extract_regexp='s|.*\?<a .*\?>\([0-9].*\?\)/</a>.*\?|\1|p'
+
+    curl -s $http_endpoint | sed -ne "$extract_regexp" | tr '\n' ' '
+}
+
+list_all

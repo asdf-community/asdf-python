@@ -1,0 +1,123 @@
+#!/usr/bin/env bash
+
+install_python() {
+  local version=$1
+  local install_path=$2
+
+  if [ "$TMPDIR" = "" ]; then
+    local tmp_download_dir=$(mktemp -d)
+  else
+    local tmp_download_dir=$TMPDIR
+  fi
+
+  # path to the tar file
+  local source_path="${tmp_download_dir}/Python-${version}.tgz"
+
+  download_source $version $source_path
+
+  # running this in a subshell
+  # because we don't want to disturb current working dir
+  (
+    cd $(dirname $source_path)
+    tar zxf $source_path || exit 1
+
+    cd "Python-${version}"
+
+    local configure_options="$(construct_configure_options $install_path)"
+
+    if [ "$ASDF_PKG_MISSING" != "" ]; then
+        echo "WARNING: Might use OS-provided pkgs for the following: $ASDF_PKG_MISSING"
+    fi
+
+    # set in os_based_configure_options
+    # we unset it here because echo-ing changes the return value of the function
+    unset ASDF_PKG_MISSING
+
+    echo "Building with options: $configure_options"
+
+    ./configure $configure_options || exit 1
+    make || exit 1
+    make install || exit 1
+  )
+}
+
+construct_configure_options() {
+  local install_path=$1
+
+  if [ "$PYTHON_CONFIGURE_OPTIONS" = "" ]; then
+    local configure_options="$(os_based_configure_options) --prefix=$install_path"
+
+    if [ "$PYTHON_EXTRA_CONFIGURE_OPTIONS" != "" ]; then
+      configure_options="$configure_options $PYTHON_EXTRA_CONFIGURE_OPTIONS"
+    fi
+  else
+    local configure_options="$PYTHON_CONFIGURE_OPTIONS --prefix=$install_path"
+  fi
+
+  echo "$configure_options"
+}
+
+
+homebrew_package_path() {
+  local package_name=$1
+
+  if [ "$(brew ls --versions $package_name)" = "" ]; then
+    echo ""
+  else
+    echo "$(brew --prefix $package_name)"
+  fi
+}
+
+
+exit_if_homebrew_not_installed() {
+  if [ "$(brew --version 2>/dev/null)" = "" ]; then
+    echo "ERROR: Please install homebrew for OSX"
+    exit 1
+  fi
+}
+
+
+os_based_configure_options() {
+  local operating_system=$(uname -a)
+  local configure_options=""
+
+  if [[ "$operating_system" =~ "Darwin" ]]; then
+
+    exit_if_homebrew_not_installed
+
+    local openssl_path=$(homebrew_package_path openssl)
+    local readline_path=$(homebrew_package_path readline)
+  else
+    local openssl_path=/usr
+  fi
+
+  if [ "$openssl_path" = "" ]; then
+    export ASDF_PKG_MISSING="openssl"
+  else
+    configure_options="--with-openssl-dir=$openssl_path"
+  fi
+
+  if [ "$readline_path" != "" ]; then
+    configure_options="$configure_options --with-readline-dir=$readline_path"
+  fi
+
+  configure_options="$configure_options --enable-shared --disable-install-doc"
+  echo $configure_options
+}
+
+
+download_source() {
+  local version=$1
+  local download_path=$2
+  local download_url="https://www.python.org/ftp/python/$version/Python-$version.tgz"
+
+
+  if [ -f $download_path ]; then
+    rm $download_path
+  fi
+
+  echo "Downloading from $download_url"
+  curl -#Lo $download_path $download_url
+}
+
+install_python $ASDF_INSTALL_VERSION $ASDF_INSTALL_PATH
