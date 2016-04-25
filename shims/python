@@ -16,7 +16,7 @@ run_python() {
 
     local short_python_version="${splitted_version[0]}.${splitted_version[1]}"
 
-    exec /home/daniel/.asdf/bin/private/asdf-exec python bin/python${short_python_version}
+    exec /home/daniel/.asdf/bin/private/asdf-exec python bin/python${short_python_version} $@
 }
 
-run_python
+run_python $@
