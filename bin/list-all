@@ -2,10 +2,10 @@
 
 list_all() {
     local http_endpoint="https://www.python.org/ftp/python/"
-    local extract_regexp='s|.*\?<a .*\?>\([0-9].*\?\)/</a>.*\?|\1|p'
+    local extract_regexp='s|<a href="([0-9](\.[0-9]){1,2})/".*|\1|p'
     local black_list='2.0'
 
-    curl -s $http_endpoint | sed -ne "$extract_regexp" | grep -vE "^($black_list)$" | tr '\n' ' '
+    curl -s $http_endpoint | sed -E -ne "$extract_regexp" | grep -vE "^($black_list)$" | tr '\n' ' '
 }
 
 list_all
