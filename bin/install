@@ -13,16 +13,16 @@ install_python() {
   # path to the tar file
   local source_path="${tmp_download_dir}/Python-${version}.tgz"
 
-  download_source $version $source_path
+  echo "Downloading Python $version"
+  local full_version=$(download_source $version $source_path)
 
   # running this in a subshell
   # because we don't want to disturb current working dir
   (
     cd $(dirname $source_path)
-    echo $source_path
     tar zxf $source_path || exit 1
 
-    cd "Python-${version}"
+    cd $full_version
 
     local configure_options="$(construct_configure_options $install_path)"
 
@@ -110,15 +110,19 @@ os_based_configure_options() {
 download_source() {
   local version=$1
   local download_path=$2
-  local download_url="https://www.python.org/ftp/python/$version/Python-$version.tgz"
+  local download_base_url="https://www.python.org/ftp/python/$version/"
 
+  local full_version=$(curl -s $download_base_url | grep -Eo 'href="[^"]+.tgz' | head -n 1)
+  full_version=${full_version:6}
+
+  local download_url="$download_base_url$full_version"
 
   if [ -f $download_path ]; then
     rm $download_path
   fi
 
-  echo "Downloading from $download_url"
   curl -#Lo $download_path $download_url
+  echo "$full_version" | sed -e 's/\.tgz//'
 }
 
 install_python $ASDF_INSTALL_VERSION $ASDF_INSTALL_PATH
