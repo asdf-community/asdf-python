@@ -19,6 +19,7 @@ install_python() {
   # because we don't want to disturb current working dir
   (
     cd $(dirname $source_path)
+    echo $source_path
     tar zxf $source_path || exit 1
 
     cd "Python-${version}"
