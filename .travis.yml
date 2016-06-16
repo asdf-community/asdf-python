@@ -1,7 +1,7 @@
 language: c
 script: asdf plugin-test python https://github.com/tuvistavie/asdf-python.git
 before_script:
-  - git clone https://github.com/tuvistavie/asdf.git --branch test-latest-version-install asdf
+  - git clone https://github.com/asdf-vm/asdf.git asdf
   - . asdf/asdf.sh
 os:
   - linux
