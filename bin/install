@@ -34,11 +34,13 @@ install_python() {
     # we unset it here because echo-ing changes the return value of the function
     unset ASDF_PKG_MISSING
 
+    ASDF_CONCURRENCY="${ASDF_CONCURRENCY:-1}"
+
     echo "Building with options: $configure_options"
 
     ./configure $configure_options || exit 1
-    make || exit 1
-    make install || exit 1
+    make -j $ASDF_CONCURRENCY || exit 1
+    make -j $ASDF_CONCURRENCY install || exit 1
   )
 }
 
