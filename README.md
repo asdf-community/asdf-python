@@ -14,7 +14,6 @@ asdf plugin-add python https://github.com/tuvistavie/asdf-python.git
 
 Check [asdf](https://github.com/asdf-vm/asdf) readme for instructions on how to install & manage versions of Python.
 
-When installing Python using `asdf install`, you can pass custom configure options with the following env vars:
-
-* `PYTHON_CONFIGURE_OPTIONS` - use only your configure options
-* `PYTHON_EXTRA_CONFIGURE_OPTIONS` - append these configure options along with ones that this plugin already uses
+Under the hood, asdf-python uses [python-build](https://github.com/yyuu/pyenv/tree/master/plugins/python-build)
+to build and install Python, check its [README](https://github.com/yyuu/pyenv/tree/master/plugins/python-build)
+for more information about build options.

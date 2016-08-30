@@ -1,11 +1,17 @@
 #!/usr/bin/env bash
 
 list_all() {
-    local http_endpoint="https://www.python.org/ftp/python/"
-    local extract_regexp='s|<a href="([0-9](\.[0-9]){1,2})/".*|\1|p'
-    local black_list='2.0'
+  local tmp_download_dir="$(mktemp -d -t asdf-python.XXX)"
+  download_python_build $tmp_download_dir > /dev/null 2>&1
+  local python_build="$tmp_download_dir/pyenv/plugins/python-build/bin/python-build"
+  $python_build --definitions
+  rm -rf "$tmp_download_dir"
+}
 
-    curl -s $http_endpoint | sed -E -ne "$extract_regexp" | grep -vE "^($black_list)$" | tr '\n' ' '
+download_python_build() {
+  local tmp_dir="$1"
+  local pyenv_url="git://github.com/yyuu/pyenv.git"
+  git clone $pyenv_url $tmp_dir/pyenv
 }
 
 list_all
