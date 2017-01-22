@@ -1,17 +1,11 @@
 #!/usr/bin/env bash
 
-list_all() {
-  local tmp_download_dir="$(mktemp -d -t asdf-python.XXX)"
-  download_python_build $tmp_download_dir > /dev/null 2>&1
-  local python_build="$tmp_download_dir/pyenv/plugins/python-build/bin/python-build"
-  $python_build --definitions | tr '\n' ' '
-  rm -rf "$tmp_download_dir"
-}
+source $(dirname $0)/utils.sh
 
-download_python_build() {
-  local tmp_dir="$1"
-  local pyenv_url="git://github.com/yyuu/pyenv.git"
-  git clone $pyenv_url $tmp_dir/pyenv
+list_all() {
+  ensure_python_build_installed
+  $(python_build_path) --definitions | tr '\n' ' '
+  rm -rf "$tmp_download_dir"
 }
 
 list_all

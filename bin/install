@@ -1,27 +1,20 @@
 #!/usr/bin/env bash
 
+source $(dirname $0)/utils.sh
+
 install_python() {
   local version="$1"
   local install_path="$2"
 
-  local tmp_download_dir="$(mktemp -d -t asdf-python.XXX)"
+  local tmp_dir="$(mktemp -d -t asdf-python.XXX)"
 
-  echo "Downloading python-build..."
-  download_python_build $tmp_download_dir > /dev/null 2>&1
-
-  local python_build="$tmp_download_dir/pyenv/plugins/python-build/bin/python-build"
+  ensure_python_build_installed
 
   ASDF_CONCURRENCY="${ASDF_CONCURRENCY:-1}"
   echo "python-build $version $install_path"
-  MAKE_OPTS="$MAKE_OPTS -j$ASDF_CONCURRENCY" TMP_DIR="$tmp_download_dir" $python_build $version $install_path
+  MAKE_OPTS="$MAKE_OPTS -j$ASDF_CONCURRENCY" TMP_DIR="$tmp_dir" $(python_build_path) $version $install_path
   echo "Cleaning up"
-  rm -rf "$tmp_download_dir"
-}
-
-download_python_build() {
-  local tmp_dir="$1"
-  local pyenv_url="git://github.com/yyuu/pyenv.git"
-  git clone $pyenv_url $tmp_dir/pyenv
+  rm -rf "$tmp_dir"
 }
 
 install_python $ASDF_INSTALL_VERSION $ASDF_INSTALL_PATH

@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
 get_legacy_version() {
-    current_directory=$1
-    python_version_file="$current_directory/.python-version"
+    local current_directory="$1"
+    local python_version_file="$current_directory/.python-version"
 
     # Get version from .python-version file. .python-version is used by pyenv
-    if [ -f $python_version_file ]; then
-        cat $python_version_file
+    if [ -f "$python_version_file" ]; then
+        cat "$python_version_file"
     fi
 }
 
-get_legacy_version $1
+get_legacy_version "$1"

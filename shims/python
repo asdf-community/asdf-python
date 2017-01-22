@@ -3,9 +3,9 @@
 source $(dirname $(dirname $0))/lib/utils.sh
 
 run_python() {
-    plugin_name="python"
+    local plugin_name="python"
 
-    full_version=$(get_preset_version_for $plugin_name)
+    local full_version=$(get_preset_version_for $plugin_name)
 
     if [ "$full_version" == "" ]; then
         echo "No version set for ${plugin_name}"
@@ -16,7 +16,7 @@ run_python() {
 
     local short_python_version="${splitted_version[0]}.${splitted_version[1]}"
 
-    exec $HOME/.asdf/bin/private/asdf-exec python bin/python${short_python_version} "$@"
+    exec $(asdf_dir)/bin/private/asdf-exec python bin/python${short_python_version} "$@"
 }
 
 run_python "$@"
