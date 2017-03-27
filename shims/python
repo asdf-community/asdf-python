@@ -12,9 +12,11 @@ run_python() {
         exit -1
     fi
 
-    IFS='.' read -r -a splitted_version <<< "$full_version"
-
-    local short_python_version="${splitted_version[0]}.${splitted_version[1]}"
+    local short_python_version=""
+    if [ "$full_version" != "system" ]; then
+      IFS='.' read -r -a splitted_version <<< "$full_version"
+      short_python_version="${splitted_version[0]}.${splitted_version[1]}"
+    fi
 
     exec $(asdf_dir)/bin/private/asdf-exec python bin/python${short_python_version} "$@"
 }
