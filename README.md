@@ -13,6 +13,7 @@ asdf plugin-add python https://github.com/tuvistavie/asdf-python.git
 ## Use
 
 Check [asdf](https://github.com/asdf-vm/asdf) readme for instructions on how to install & manage versions of Python.
+Please make sure you have the required [system dependencies](https://github.com/pyenv/pyenv/wiki#suggested-build-environment) installed before trying to install Python.
 
 Under the hood, asdf-python uses [python-build](https://github.com/yyuu/pyenv/tree/master/plugins/python-build)
 to build and install Python, check its [README](https://github.com/yyuu/pyenv/tree/master/plugins/python-build)
