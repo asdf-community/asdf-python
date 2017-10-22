@@ -17,4 +17,5 @@ Please make sure you have the required [system dependencies](https://github.com/
 
 Under the hood, asdf-python uses [python-build](https://github.com/yyuu/pyenv/tree/master/plugins/python-build)
 to build and install Python, check its [README](https://github.com/yyuu/pyenv/tree/master/plugins/python-build)
-for more information about build options.
+for more information about build options and the [common build problems](https://github.com/pyenv/pyenv/wiki/Common-build-problems) wiki page for any issues encountered during installation of python versions.
+
