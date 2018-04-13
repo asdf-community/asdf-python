@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-source $(dirname $0)/utils.sh
+source "$(dirname "$0")/utils.sh"
 
 list_all() {
   ensure_python_build_installed
+
   $(python_build_path) --definitions | tr '\n' ' '
-  rm -rf "$tmp_download_dir"
 }
 
 list_all
