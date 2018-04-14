@@ -1,20 +1,23 @@
 #!/usr/bin/env bash
 
-source $(dirname $0)/utils.sh
+set -e
+
+source "$(dirname "$0")"/utils.sh
 
 install_python() {
-  local version="$1"
-  local install_path="$2"
+  local install_type=$1
+  local version=$2
+  local install_path=$3
 
-  local tmp_dir="$(mktemp -d -t asdf-python.XXX)"
+  if [ "$install_type" != "version" ]; then
+    echoerr "Cannot install specific ref from source, sorry."
+    echoerr "For a list of available versions, see \`asdf list-all python\`."
+    exit 1
+  fi
 
-  ensure_python_build_installed
-
-  ASDF_CONCURRENCY="${ASDF_CONCURRENCY:-1}"
   echo "python-build $version $install_path"
-  MAKE_OPTS="$MAKE_OPTS -j$ASDF_CONCURRENCY" TMP_DIR="$tmp_dir" $(python_build_path) $version $install_path
-  echo "Cleaning up"
-  rm -rf "$tmp_dir"
+  $(python_build_path) "$version" "$install_path"
 }
 
-install_python $ASDF_INSTALL_VERSION $ASDF_INSTALL_PATH
+ensure_python_build_installed
+install_python "$ASDF_INSTALL_TYPE" "$ASDF_INSTALL_VERSION" "$ASDF_INSTALL_PATH"

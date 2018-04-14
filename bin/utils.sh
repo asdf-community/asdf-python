@@ -1,3 +1,7 @@
+echoerr() {
+  printf "\033[0;31m%s\033[0m" "$1" >&2
+}
+
 ensure_python_build_installed() {
   if [ ! -f "$(python_build_path)" ]; then
     download_python_build
