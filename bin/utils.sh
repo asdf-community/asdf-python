@@ -5,8 +5,9 @@ echoerr() {
 ensure_python_build_installed() {
   if [ ! -f "$(python_build_path)" ]; then
     download_python_build
+  else
+    git -C "$(pyenv_path)" pull > /dev/null || true
   fi
-  git -C "$(pyenv_path)" pull > /dev/null || true
 }
 
 download_python_build() {
