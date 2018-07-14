@@ -2,7 +2,7 @@
 
 set -e
 
-source "$(dirname "$0")"/utils.sh
+source "$(dirname "$0")/utils.sh"
 
 install_python() {
   local install_type=$1
@@ -14,6 +14,7 @@ install_python() {
     echoerr "For a list of available versions, see \`asdf list-all python\`."
     exit 1
   fi
+  install_or_update_python_build
 
   echo "python-build $version $install_path"
   $(python_build_path) "$version" "$install_path"
