@@ -30,3 +30,7 @@ asdf global 3.6.2 2.7.13
 ```
 
 This feature is experimental but should be working well enough for most use cases.
+
+## Pip installed modules and binaries
+
+If you use pip to install a module like ipython that has a binaries. You will need to run `asdf reshim python` for the binary to be in your path.
