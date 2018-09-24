@@ -20,11 +20,11 @@ install_python() {
   $(python_build_path) "$version" "$install_path"
 }
 
-install_default_eggs() {
-  local default_eggs="${HOME}/.default-eggs"
-   if [ ! -f $default_egg_packages ]; then return; fi
-   for name in $(cat $default_eggs); do
-    echo -ne "\nInstalling \e[33m${name}\e[39m egg ... "
+install_default_python_packages() {
+  local default_python_packages="${HOME}/.default-python-packages"
+   if [ ! -f $default_python_packages ]; then return; fi
+   for name in $(cat $default_python_packages); do
+    echo -ne "\nInstalling \e[33m${name}\e[39m python package ... "
      if pip install $name > /dev/null 2>&1; then
       echo -e "\e[32mSUCCESS\e[39m"
     else
@@ -35,4 +35,4 @@ install_default_eggs() {
 
 ensure_python_build_installed
 install_python "$ASDF_INSTALL_TYPE" "$ASDF_INSTALL_VERSION" "$ASDF_INSTALL_PATH"
-install_default_eggs
+install_default_python_packages
