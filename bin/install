@@ -20,5 +20,19 @@ install_python() {
   $(python_build_path) "$version" "$install_path"
 }
 
+install_default_python_packages() {
+  local default_python_packages="${HOME}/.default-python-packages"
+   if [ ! -f $default_python_packages ]; then return; fi
+   for name in $(cat $default_python_packages); do
+    echo -ne "\nInstalling \e[33m${name}\e[39m python package ... "
+     if pip install $name > /dev/null 2>&1; then
+      echo -e "\e[32mSUCCESS\e[39m"
+    else
+      echo -e "\e[31mFAIL\e[39m"
+    fi
+  done
+}
+
 ensure_python_build_installed
 install_python "$ASDF_INSTALL_TYPE" "$ASDF_INSTALL_VERSION" "$ASDF_INSTALL_PATH"
+install_default_python_packages
