@@ -26,7 +26,7 @@ A common request for Python is being able to use the `python2` and `python3` com
 This can be achieved by setting multiple versions of Python, for example with
 
 ```
-asdf global 3.6.2 2.7.13
+asdf global python 3.6.2 2.7.13
 ```
 
 This feature is experimental but should be working well enough for most use cases.
