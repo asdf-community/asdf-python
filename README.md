@@ -1,13 +1,13 @@
 # asdf-python
 
-[![Build Status](https://travis-ci.org/tuvistavie/asdf-python.svg?branch=master)](https://travis-ci.org/tuvistavie/asdf-python)
+[![Build Status](https://travis-ci.org/danhper/asdf-python.svg?branch=master)](https://travis-ci.org/danhper/asdf-python)
 
 Python plugin for [asdf](https://github.com/asdf-vm/asdf) version manager
 
 ## Install
 
 ```
-asdf plugin-add python https://github.com/tuvistavie/asdf-python.git
+asdf plugin-add python https://github.com/danhper/asdf-python.git
 ```
 
 ## Use
