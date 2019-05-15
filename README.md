@@ -39,7 +39,7 @@ python3 -V
 Python 3.6.3
 
 python2 -V
-2.7.13
+Python 2.7.13
 ```
 
 In some cases, you might want python2 and python3 to co-exist, but python needs to point at a specific python version. The order of python versions is what controls this.
