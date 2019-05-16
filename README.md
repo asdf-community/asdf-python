@@ -29,7 +29,20 @@ This can be achieved by setting multiple versions of Python, for example with
 asdf global python 3.6.2 2.7.13
 ```
 
-This feature is experimental but should be working well enough for most use cases.
+This feature is experimental but should be working well enough for most use cases. Incidentally, the first python version you install will claim `python`. With the above example:
+
+```
+python -V
+Python 3.6.3
+
+python3 -V
+Python 3.6.3
+
+python2 -V
+Python 2.7.13
+```
+
+In some cases, you might want python2 and python3 to co-exist, but python needs to point at a specific python version. The order of python versions is what controls this.
 
 ## Pip installed modules and binaries
 
