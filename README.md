@@ -29,20 +29,20 @@ This can be achieved by setting multiple versions of Python, for example with
 asdf global python 3.6.2 2.7.13
 ```
 
-This feature is experimental but should be working well enough for most use cases. Incidentally, the first python version you install will claim `python`. With the above example:
+Executables in the first version will take priority over the executables in the next one. Note that you can use an arbitrary number over versions, if needed.
+With the above example, `python` will therefore use the `python` executable found in version 3.6.2.
+However, as the `python2` does not exist in Python 3.6.2, `python2` will use the `python2` executable found in version 2.7.13.
 
 ```
 python -V
-Python 3.6.3
+Python 3.6.2
 
 python3 -V
-Python 3.6.3
+Python 3.6.2
 
 python2 -V
 Python 2.7.13
 ```
-
-In some cases, you might want python2 and python3 to co-exist, but python needs to point at a specific python version. The order of python versions is what controls this.
 
 ## Pip installed modules and binaries
 
