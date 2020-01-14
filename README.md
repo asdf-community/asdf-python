@@ -56,3 +56,5 @@ asdf-python can automatically install a default set of Python packages with pip 
 ansible
 pipenv
 ```
+
+You can specify a non-default location of this file by setting a `ASDF_PYTHON_DEFAULT_PACKAGES_FILE` variable.
