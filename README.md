@@ -46,7 +46,7 @@ Python 2.7.13
 
 ## Pip installed modules and binaries
 
-If you use pip to install a module like ipython that has a binaries. You will need to run `asdf reshim python` for the binary to be in your path.
+If you use pip to install a module like ipython that has binaries. You will need to run `asdf reshim python` for the binary to be in your path.
 
 ## Default Python packages
 
