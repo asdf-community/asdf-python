@@ -7,7 +7,7 @@ Python plugin for [asdf](https://github.com/asdf-vm/asdf) version manager
 ## Install
 
 ```
-asdf plugin-add python
+asdf plugin-add python https://github.com/danhper/asdf-python
 ```
 
 ## Use
