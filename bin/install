@@ -33,7 +33,7 @@ install_default_python_packages() {
 
   while read -r name; do
     echo -ne "\nInstalling \033[33m${name}\033[39m python package... "
-    PATH="$ASDF_INSTALL_PATH/bin:$PATH" pip install "$name" > /dev/null 2>&1 && rc=$? || rc=$?
+    PATH="$ASDF_INSTALL_PATH/bin:$PATH" pip install --upgrade "$name" > /dev/null 2>&1 && rc=$? || rc=$?
     if [[ $rc -eq 0 ]]; then
       echo -e "\033[32mSUCCESS\033[39m"
     else
