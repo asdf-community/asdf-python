@@ -10,6 +10,19 @@ Python plugin for [asdf](https://github.com/asdf-vm/asdf) version manager
 asdf plugin-add python
 ```
 
+### Install with `--patch`
+
+> Enable to fix macOS 11 issues
+
+You can use environment variable `ASDF_PYTHON_PATCH_URL` to install with `--patch` like that:
+
+```
+export ASDF_PYTHON_PATCH_URL="https://github.com/python/cpython/commit/8ea6353.patch?full_index=1"
+asdf install python 3.6.12
+```
+
+or use environment variable `ASDF_PYTHON_PATCHES_DIRECTORY`.
+
 ## Use
 
 Check [asdf](https://github.com/asdf-vm/asdf) readme for instructions on how to install & manage versions of Python.
@@ -18,7 +31,6 @@ Please make sure you have the required [system dependencies](https://github.com/
 Under the hood, asdf-python uses [python-build](https://github.com/yyuu/pyenv/tree/master/plugins/python-build)
 to build and install Python, check its [README](https://github.com/yyuu/pyenv/tree/master/plugins/python-build)
 for more information about build options and the [common build problems](https://github.com/pyenv/pyenv/wiki/Common-build-problems) wiki page for any issues encountered during installation of python versions.
-
 
 ## Using multiple versions of Python
 

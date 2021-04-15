@@ -16,8 +16,12 @@ install_python() {
   fi
   install_or_update_python_build
 
-  local patch_file=${ASDF_PYTHON_PATCHES_DIRECTORY}/${version}.patch
-  if [ -f "$patch_file" ]; then
+  if [[ -n "${ASDF_PYTHON_PATCH_URL:-}" ]]; then 
+    echo "python-build --patch $version $install_path"
+    echo "with patch file from: $ASDF_PYTHON_PATCH_URL"
+    $(python_build_path) --patch "$version" "$install_path" < <(curl -sSL "$ASDF_PYTHON_PATCH_URL")
+  elif [[ -n "${ASDF_PYTHON_PATCHES_DIRECTORY:-}" ]]; then
+    local patch_file=${ASDF_PYTHON_PATCHES_DIRECTORY}/${version}.patch
     echo "python-build $version $install_path -p < $patch_file"
     $(python_build_path) "$version" "$install_path" -p < $patch_file
   else
