@@ -36,13 +36,14 @@ install_default_python_packages() {
   if [ ! -f "$packages_file" ]; then return; fi
 
   while read -r name; do
-    echo -ne "\nInstalling \033[33m${name}\033[39m python package... "
-    PATH="$ASDF_INSTALL_PATH/bin:$PATH" pip install "$name" > /dev/null 2>&1 && rc=$? || rc=$?
-    if [[ $rc -eq 0 ]]; then
-      echo -e "\033[32mSUCCESS\033[39m"
-    else
-      echo -e "\033[31mFAIL\033[39m"
-    fi
+    [[ -z $name || $name =~ ^#.* ]] && continue
+      echo -ne "\nInstalling \033[33m${name}\033[39m python package... "
+      PATH="$ASDF_INSTALL_PATH/bin:$PATH" pip install "$name" > /dev/null 2>&1 && rc=$? || rc=$?
+      if [[ $rc -eq 0 ]]; then
+        echo -e "\033[32mSUCCESS\033[39m"
+      else
+        echo -e "\033[31mFAIL\033[39m"
+      fi
   done < "$packages_file"
 }
 
