@@ -33,17 +33,10 @@ install_python() {
 install_default_python_packages() {
   local packages_file="${ASDF_PYTHON_DEFAULT_PACKAGES_FILE:-$HOME/.default-python-packages}"
 
-  if [ ! -f "$packages_file" ]; then return; fi
-
-  while read -r name; do
-    echo -ne "\nInstalling \033[33m${name}\033[39m python package... "
-    PATH="$ASDF_INSTALL_PATH/bin:$PATH" pip install "$name" > /dev/null 2>&1 && rc=$? || rc=$?
-    if [[ $rc -eq 0 ]]; then
-      echo -e "\033[32mSUCCESS\033[39m"
-    else
-      echo -e "\033[31mFAIL\033[39m"
-    fi
-  done < "$packages_file"
+  if [ -f "$packages_file" ]; then
+    echo -ne "\nInstalling default python packages..."
+    PATH="$ASDF_INSTALL_PATH/bin:$PATH" pip install -U -r "$packages_file"
+  fi
 }
 
 ensure_python_build_installed
