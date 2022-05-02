@@ -1,20 +1,15 @@
 #! /usr/bin/env bash
-#
+
 # This script wraps pip to run `asdf reshim` after installs and uninstalls.
 # Any other cases are passed-through to pip.
 #
-# Based on the npm shim: https://github.com/asdf-vm/asdf-nodejs/blob/b2d06a768d9a14186db72018df10604bdb384436/shims/npm
+# Inspired by the npm shim: https://github.com/asdf-vm/asdf-nodejs/blob/b2d06a768d9a14186db72/shims/npm
 
 set -euo pipefail
 
 this_dir=$(dirname "${BASH_SOURCE[0]}")
-this_dir=$(cd "$this_dir" && pwd -P) # Normalizes the directory; see https://stackoverflow.com/a/7666/2308068
+this_dir=$(cd "$this_dir" && pwd -P)  # Normalizes the directory; see https://stackoverflow.com/a/7666/2308068
 plugin_name=$(basename "$(dirname "$this_dir")")
-
-asdf_data_dir=$(cd "${ASDF_DATA_DIR:-$HOME/.asdf}" && pwd -P)
-asdf_shims_dir="$asdf_data_dir/shims"
-
-plugin_dir="$asdf_data_dir/plugins/$plugin_name"
 
 should_reshim() {
   if [ "${ASDF_PYTHON_SKIP_RESHIM:-}" ]; then
@@ -33,10 +28,7 @@ should_reshim() {
 }
 
 resolve_pip() {
-  # Try searching in current path (asdf core from 0.7 onwards adds all binaries candidates directories to PATH)
-  # if that doesn't works (when calling the shim directly for example) it tries manually searching the binary in
-  # the installed version provided by "asdf where"
-  local pip_location="${ASDF_NODEJS_CANON_PIP_PATH:-$(search_pip_on_current_path || manually_search_pip_bin)}"
+  local pip_location="${ASDF_PYTHON_CANON_PIP_PATH:-$(search_pip_bin)}"
 
   if ! [ "$pip_location" ]; then
     echo "asdf-python couldn't find a suitable pip executable"
@@ -47,31 +39,7 @@ resolve_pip() {
   echo "$pip_location"
 }
 
-remove_current_dir_from_path() {
-  local filtered_path= dir= normalized_dir=
-
-  while read -rd : dir; do
-    if [ -d "$dir" ]; then
-      normalized_dir=$(cd "$dir" && pwd -P)
-
-      if [ "$normalized_dir" = "$this_dir" ] || [ "$normalized_dir" = "$asdf_shims_dir" ]; then
-        continue
-      fi
-    fi
-
-    filtered_path+="$dir:"
-  done <<< "$PATH:"
-
-  echo "${filtered_path%:}"
-}
-
-search_pip_on_current_path() {
-  # Tries to prevent recursion by removing the current script and asdf-shim from PATH
-  local filtered_path=$(remove_current_dir_from_path)
-  PATH="$filtered_path" command -v pip
-}
-
-manually_search_pip_bin() {
+search_pip_bin() {
   local probably_pip="$(asdf where python)/bin/pip"
 
   if [ -x "$probably_pip" ]; then
@@ -95,3 +63,4 @@ wrap_pip() {
 }
 
 wrap_pip "$@"
+
