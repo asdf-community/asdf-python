@@ -57,9 +57,9 @@ fetch_all_versions() {
 
 resolve_partial_version() {
   local version=$1
-  if [[ "$version" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then
-    # maps a version like "3.0" or "3" to "3.1.2"
-    fetch_all_versions | grep -e "^$version\." | head -n1
+  if [[ "$version" =~ -latest$ ]]; then
+    # maps a version like "3.1-latest" to "3.1.2"
+    fetch_all_versions | grep -e "^${version%-latest}\." | head -n1
   else
     echo "$version"
   fi
