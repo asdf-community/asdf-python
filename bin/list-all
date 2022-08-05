@@ -4,29 +4,7 @@ source "$(dirname "$0")/utils.sh"
 
 list_all() {
   install_or_update_python_build
-  echo $(
-    $(python_build_path) --definitions
-    echo 2
-    echo 2.1
-    echo 2.2
-    echo 2.3
-    echo 2.4
-    echo 2.5
-    echo 2.6
-    echo 2.7
-    echo 3
-    echo 3.0
-    echo 3.1
-    echo 3.2
-    echo 3.3
-    echo 3.4
-    echo 3.5
-    echo 3.6
-    echo 3.7
-    echo 3.8
-    echo 3.9
-    echo 3.10
-  ) | tr '\n' ' '
+  $(python_build_path) --definitions | tr '\n' ' '
 }
 
 list_all

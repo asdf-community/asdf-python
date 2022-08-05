@@ -52,7 +52,7 @@ install_default_python_packages() {
 
 
 fetch_all_versions() {
-  $(python_build_path) --definitions | grep -E '^\d+\.\d+\.\d+$' | sort -rV
+  $(python_build_path) --definitions | grep -E '^[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+$' | sort -rV
 }
 
 resolve_partial_version() {
