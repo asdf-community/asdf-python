@@ -20,7 +20,7 @@ install_python() {
   fi
   install_or_update_python_build
 
-  if [[ -n "${ASDF_PYTHON_PATCH_URL:-}" ]]; then 
+  if [[ -n "${ASDF_PYTHON_PATCH_URL:-}" ]]; then
     echo "python-build --patch $version $install_path"
     echo "with patch file from: $ASDF_PYTHON_PATCH_URL"
     $(python_build_path) --patch "$version" "$install_path" < <(curl -sSL "$ASDF_PYTHON_PATCH_URL")
@@ -34,10 +34,8 @@ install_python() {
   fi
 
   if [ "$install_path" != "$symlink_path" ]; then
-    # add a symlink for an alias like:
-    # ~/.asdf/installs/python/3 -> ~/.asdf/installs/python/3.1.2
-    rmdir "$symlink_path" # asdf creates this empty directory we don't want
-    ln -sfv "$install_path" "$symlink_path"
+    # asdf creates this empty directory that we don't want.
+    rmdir "$symlink_path"
   fi
 }
 
@@ -50,16 +48,26 @@ install_default_python_packages() {
   fi
 }
 
-
 fetch_all_versions() {
-  $(python_build_path) --definitions | grep -E '^\d+\.\d+\.\d+$' | sort -rV
+  $(python_build_path) --definitions
+}
+
+reverse_sort_numeric_versions() {
+  egrep '^([0-9]+\.){2}[0-9]+$' | LC_ALL=C sort -t. -nrk1 -nrk2 -nrk3
+}
+
+select_first_matching() {
+  local version=${1//./\\.}
+  sed -ne "/^${version}\./{p;q;}"
 }
 
 resolve_partial_version() {
   local version=$1
-  if [[ "$version" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then
-    # maps a version like "3.0" or "3" to "3.1.2"
-    fetch_all_versions | grep -e "^$version\." | head -n1
+  if [[ "$version" =~ ^[0-9]+\.?|[0-9]+\.[0-9]+\.?$ ]]; then
+    # Given a partial version like '3.' or '3.10', return the latest matching revision.
+    fetch_all_versions |
+      reverse_sort_numeric_versions |
+      select_first_matching "${version%.}"
   else
     echo "$version"
   fi
