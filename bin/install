@@ -52,7 +52,11 @@ install_default_python_packages() {
 
 
 fetch_all_versions() {
-  $(python_build_path) --definitions | grep -E '^[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+$' | sort -rV
+  # fetches the definitions, grabs only the ones formatted "x.x.x"
+  # then reverse sorts by version number
+  $(python_build_path) --definitions |
+    grep -E '^([0-9]+\.){2}[0-9]+$' |
+    LC_ALL=C sort -t. -nrk1 -nrk2 -nrk3
 }
 
 resolve_partial_version() {
