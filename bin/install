@@ -6,12 +6,8 @@ source "$(dirname "$0")/utils.sh"
 
 install_python() {
   local install_type=$1
-  local version
-  local symlink_path=$3
-  local install_path
-
-  version="$(resolve_partial_version "$2")"
-  install_path="$(dirname "$symlink_path")/$version"
+  local version=$2
+  local install_path=$3
 
   if [ "$install_type" != "version" ]; then
     echoerr "Cannot install specific ref from source, sorry."
@@ -32,13 +28,6 @@ install_python() {
     echo "python-build $version $install_path"
     $(python_build_path) "$version" "$install_path"
   fi
-
-  if [ "$install_path" != "$symlink_path" ]; then
-    # add a symlink for an alias like:
-    # ~/.asdf/installs/python/3 -> ~/.asdf/installs/python/3.1.2
-    rmdir "$symlink_path" # asdf creates this empty directory we don't want
-    ln -sfv "$install_path" "$symlink_path"
-  fi
 }
 
 install_default_python_packages() {
@@ -47,21 +36,6 @@ install_default_python_packages() {
   if [ -f "$packages_file" ]; then
     echo -ne "\nInstalling default python packages..."
     PATH="$ASDF_INSTALL_PATH/bin:$PATH" pip install -U -r "$packages_file"
-  fi
-}
-
-
-fetch_all_versions() {
-  $(python_build_path) --definitions | grep -E '^\d+\.\d+\.\d+$' | sort -rV
-}
-
-resolve_partial_version() {
-  local version=$1
-  if [[ "$version" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then
-    # maps a version like "3.0" or "3" to "3.1.2"
-    fetch_all_versions | grep -e "^$version\." | head -n1
-  else
-    echo "$version"
   fi
 }
 
