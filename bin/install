@@ -16,7 +16,7 @@ install_python() {
   fi
   install_or_update_python_build
 
-  if [[ -n "${ASDF_PYTHON_PATCH_URL:-}" ]]; then 
+  if [[ -n "${ASDF_PYTHON_PATCH_URL:-}" ]]; then
     echo "python-build --patch $version $install_path"
     echo "with patch file from: $ASDF_PYTHON_PATCH_URL"
     $(python_build_path) --patch "$version" "$install_path" < <(curl -sSL "$ASDF_PYTHON_PATCH_URL")
@@ -35,7 +35,7 @@ install_default_python_packages() {
 
   if [ -f "$packages_file" ]; then
     echo -ne "\nInstalling default python packages..."
-    PATH="$ASDF_INSTALL_PATH/bin:$PATH" pip install -U -r "$packages_file"
+    sed 's/#.*//' "$packages_file" | env PATH="$ASDF_INSTALL_PATH/bin:$PATH" xargs pip install -U
   fi
 }
 
