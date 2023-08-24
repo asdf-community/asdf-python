@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 set -e
+[ -n "$PYENV_DEBUG" ] && set -x
+
 
 source "$(dirname "$0")/utils.sh"
 
@@ -8,6 +10,9 @@ install_python() {
   local install_type=$1
   local version=$2
   local install_path=$3
+  local VERBOSE
+
+  [ -n "$PYENV_DEBUG" ] && VERBOSE="-v"
 
   if [ "$install_type" != "version" ]; then
     echoerr "Cannot install specific ref from source, sorry."
@@ -16,17 +21,17 @@ install_python() {
   fi
   install_or_update_python_build
 
-  if [[ -n "${ASDF_PYTHON_PATCH_URL:-}" ]]; then 
+  if [[ -n "${ASDF_PYTHON_PATCH_URL:-}" ]]; then
     echo "python-build --patch $version $install_path"
     echo "with patch file from: $ASDF_PYTHON_PATCH_URL"
-    $(python_build_path) --patch "$version" "$install_path" < <(curl -sSL "$ASDF_PYTHON_PATCH_URL")
+    $(python_build_path) $VERBOSE --patch "$version" "$install_path" < <(curl -sSL "$ASDF_PYTHON_PATCH_URL")
   elif [[ -n "${ASDF_PYTHON_PATCHES_DIRECTORY:-}" ]] && [[ -f ${ASDF_PYTHON_PATCHES_DIRECTORY}/${version}.patch ]]; then
     local patch_file=${ASDF_PYTHON_PATCHES_DIRECTORY}/${version}.patch
     echo "python-build $version $install_path -p < $patch_file"
-    $(python_build_path) "$version" "$install_path" -p < $patch_file
+    $(python_build_path) $VERBOSE "$version" "$install_path" -p < $patch_file
   else
     echo "python-build $version $install_path"
-    $(python_build_path) "$version" "$install_path"
+    $(python_build_path) $VERBOSE "$version" "$install_path"
   fi
 }
 
