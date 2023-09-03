@@ -29,8 +29,24 @@ Check [asdf](https://github.com/asdf-vm/asdf) readme for instructions on how to 
 Please make sure you have the required [system dependencies](https://github.com/pyenv/pyenv/wiki#suggested-build-environment) installed before trying to install Python.
 
 Under the hood, asdf-python uses [python-build](https://github.com/yyuu/pyenv/tree/master/plugins/python-build)
-to build and install Python, check its [README](https://github.com/yyuu/pyenv/tree/master/plugins/python-build)
+To build and install Python, check its [README](https://github.com/yyuu/pyenv/tree/master/plugins/python-build)
 for more information about build options and the [common build problems](https://github.com/pyenv/pyenv/wiki/Common-build-problems) wiki page for any issues encountered during installation of python versions.
+
+## Ubuntu
+
+For Ubuntu 20 and 22
+
+```
+sudo apt-get update; sudo apt-get install make build-essential libssl-dev zlib1g-dev \
+libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+```
+
+then
+
+```
+asdf install python latest
+```
 
 ## Using multiple versions of Python
 
