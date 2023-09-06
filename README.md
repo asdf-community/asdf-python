@@ -70,3 +70,12 @@ pipenv
 ```
 
 You can specify a non-default location of this file by setting a `ASDF_PYTHON_DEFAULT_PACKAGES_FILE` variable.
+
+## Debugging
+
+You can get more verbose information about a python installation by setting `PYENV_DEBUG`, for example:
+
+```
+PYENV_DEBUG=1 asdf install python latest
+```
+
