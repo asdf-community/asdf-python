@@ -75,9 +75,9 @@ You can specify a non-default location of this file by setting a `ASDF_PYTHON_DE
 
 In some cases (older verisons of pip - which come with older versions of Python) unpinned package versions in `$HOME/.default-python-packages` (or `ASDF_PYTHON_DEFAULT_PACKAGES_FILE` environment variable) may cause errors during pip install - due to latest package dependency versions not being available.
 
-You can set the environment variable `ASDF_PYTHON_PKGS_UPGRADE_PIP_FIRST` (to any value) to first upgrade your pip version, before installing pacakges from `$HOME/.default-python-packages` (or `ASDF_PYTHON_DEFAULT_PACKAGES_FILE` environment variable):
+You can set the environment variable `ASDF_PYTHON_PKGS_UPGRADE_PIP_FIRST` (to either `true` or `True`) to first upgrade your pip version, before installing pacakges from `$HOME/.default-python-packages` (or `ASDF_PYTHON_DEFAULT_PACKAGES_FILE` environment variable):
 
 ```
-export ASDF_PYTHON_PKGS_UPGRADE_PIP_FIRST="true"
+export ASDF_PYTHON_PKGS_UPGRADE_PIP_FIRST=true
 asdf install python 3.6.15
 ```

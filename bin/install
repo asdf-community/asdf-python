@@ -34,7 +34,7 @@ install_default_python_packages() {
   local packages_file="${ASDF_PYTHON_DEFAULT_PACKAGES_FILE:-$HOME/.default-python-packages}"
 
   if [ -f "$packages_file" ]; then
-    if [[ -n "${ASDF_PYTHON_PKGS_UPGRADE_PIP_FIRST:-}" ]]; then
+    if [[ "${ASDF_PYTHON_PKGS_UPGRADE_PIP_FIRST:-}" =~ ^t|True ]]; then
         echo "pip install --upgrade pip"
         PATH="$ASDF_INSTALL_PATH/bin:$PATH" pip install --upgrade pip
     fi
