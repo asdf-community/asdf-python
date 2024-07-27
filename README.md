@@ -28,9 +28,10 @@ or use environment variable `ASDF_PYTHON_PATCHES_DIRECTORY`.
 Check [asdf](https://github.com/asdf-vm/asdf) readme for instructions on how to install & manage versions of Python.
 Please make sure you have the required [system dependencies](https://github.com/pyenv/pyenv/wiki#suggested-build-environment) installed before trying to install Python.
 
-Under the hood, asdf-python uses [python-build](https://github.com/yyuu/pyenv/tree/master/plugins/python-build)
+Under the hood, asdf-python uses [pyenv python-build](https://github.com/yyuu/pyenv/tree/master/plugins/python-build)
 to build and install Python, check its [README](https://github.com/yyuu/pyenv/tree/master/plugins/python-build)
-for more information about build options and the [common build problems](https://github.com/pyenv/pyenv/wiki/Common-build-problems) wiki page for any issues encountered during installation of python versions.
+for more information about build options and the [common build problems](https://github.com/pyenv/pyenv/wiki/Common-build-problems) wiki page for any issues encountered
+during installation of python versions. You may also want to check [Python's official setup building section](https://devguide.python.org/getting-started/setup-building/#install-dependencies) for latest version dependencies.
 
 ## Using multiple versions of Python
 
