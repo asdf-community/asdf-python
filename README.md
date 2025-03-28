@@ -7,7 +7,13 @@ Python plugin for [asdf](https://github.com/asdf-vm/asdf) version manager
 ## Install
 
 ```
-asdf plugin-add python
+asdf plugin add python https://github.com/asdf-community/asdf-python.git
+```
+
+For pre-0.16.0 asdf versions:
+
+```
+asdf plugin-add python https://github.com/asdf-community/asdf-python.git
 ```
 
 ### Install with `--patch`
@@ -37,6 +43,12 @@ during installation of python versions. You may also want to check [Python's off
 
 A common request for Python is being able to use the `python2` and `python3` commands without needing to switch version.
 This can be achieved by setting multiple versions of Python, for example with
+
+```
+asdf set python -u 3.6.2 2.7.13
+```
+
+For pre-0.16.0 asdf versions:
 
 ```
 asdf global python 3.6.2 2.7.13
