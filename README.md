@@ -45,7 +45,7 @@ A common request for Python is being able to use the `python2` and `python3` com
 This can be achieved by setting multiple versions of Python, for example with
 
 ```
-asdf set python -u 3.6.2 2.7.13
+asdf set -u python 3.6.2 2.7.13
 ```
 
 For pre-0.16.0 asdf versions:
