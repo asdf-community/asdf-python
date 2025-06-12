@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Ensure that Python shared libraries are in the LD_LIBRARY_PATH
+# See: https://github.com/asdf-community/asdf-python/issues/168
+LD_LIBRARY_PATH="${LD_LIBRARY_PATH:-}"
+ASDF_PY_LIB_PATH="${ASDF_INSTALL_PATH}/lib"
+
+# Check if ASDF_PY_LIB_PATH is already in LD_LIBRARY_PATH
+if [[ ":$LD_LIBRARY_PATH:" != *":$ASDF_PY_LIB_PATH:"* ]]; then
+  # Prepend ASDF_PY_LIB_PATH to LD_LIBRARY_PATH
+  LD_LIBRARY_PATH="${ASDF_PY_LIB_PATH}${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+fi
+
+export LD_LIBRARY_PATH
